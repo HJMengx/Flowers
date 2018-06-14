@@ -157,12 +157,10 @@ class MXGenerator(keras.utils.Sequence):
                     img = cv2.resize(img,self.des_size)
                     imgs[name_index] = img 
         else:
-            for i in range(len(index)):
-                img = self.x[index[i]]
-                img = cv2.resize(img,self.des_size)
-                imgs[i] = img 
-                labels[i] = self.y[index[i]]
-                
+            # read from path
+            index_array = self.index_array[self.batch_size * idx:self.batch_size * (idx + 1)]
+            imgs = self.x[index_array]
+            labels = keras.utils.to_categorical(self.y[index_array],997)
         if labels is None:
             return imgs
         else:
